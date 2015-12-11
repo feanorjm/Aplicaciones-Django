@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<title>Agenda Telefonica</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<head>
+	<h1>Agenda Telefonica</h1>
+	<body>
+
+		<ol class="breadcrumb">
+		  <li><a href="http://127.0.0.1:8000/admin">Home</a></li>
+		  <li class="active">Agenda</li>
+		</ol>
+			<div class="table-responsive">
+				<table class="table table-striped" >
+					<tr>
+						<td>#</td>
+						<td>Nombres</td>
+						<td>Apellidos</td>
+						<td>Telefono</td>
+						<td>Direccion</td>
+						<td>Oficio</td>
+						<td>Descripción</td>
+					</tr>
+					{% for persona in lista %}
+					<tr>
+						<td>
+						{{ persona.id }}</td>
+						<td>
+						{{ persona.nombre }}</td>
+						<td>
+						{{ persona.apellido }}</td>
+						<td>
+						{{ persona.telefono }}</td>
+						<td>
+						{{ persona.direccion }}</td>
+						<td>
+						{{ persona.oficio }}</td>
+						<td>
+						{{ persona.descripcion }}</td>
+					</tr>
+
+					{% endfor %}
+				</table>
+
+			</div>
+
+
+		</div>
+	</body>
+</html>
