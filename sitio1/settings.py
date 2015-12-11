@@ -80,12 +80,12 @@ WSGI_APPLICATION = 'sitio1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'C:/apps_django/sitio1/basedatos.sqlite',
-        'USER':'',
-        'PASSWORD':'',
-        'HOST':'',
-        'PORT':'',
-        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'NAME': 'C:/apps_django/sitio1/basedatos.sqlite',
+        #'USER':'',
+        #'PASSWORD':'',
+        #'HOST':'',
+        #'PORT':'',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
