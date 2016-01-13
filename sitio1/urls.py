@@ -8,6 +8,7 @@ from django.contrib import admin
 admin.autodiscover()
 from sitio1.views import hola, raiz, current_datetime, horas_adelante
 from guiacontactos.views import personas
+from contabilidad.views import transacciones
 
 urlpatterns = [
     #url(r'^admin/', include(admin.site.urls)),
@@ -18,4 +19,5 @@ urlpatterns = [
     url(r'^hola/$', hola),
     url(r'^current/$', current_datetime),
     url(r'^fecha/mas/(\d{1,2})/$',horas_adelante),
+    url(r'^transacciones/', transacciones),
 ]

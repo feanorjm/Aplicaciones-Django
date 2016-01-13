@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<title>Transacciones Raices</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<head>
+	<h1>Transacciones Raices</h1>
+	<body>
+
+		<ol class="breadcrumb">
+		  <li><a href="http://localhost:8000/admin">Home</a></li>
+		  <li class="active">Agenda</li>
+		</ol>
+			<div class="table-responsive">
+				<table class="table table-striped" >
+					<tr>
+						<td>#</td>
+						<td>Consumidor</td>
+						<td>Monto</td>
+						<td>Tipo gasto</td>
+						<td>Fecha</td>
+						<td>Descripcion</td>
+					</tr>
+
+					{% for transaccion in listado_trans %}
+					<tr>
+						<td>
+						{{ transaccion.id }}</td>
+						<td>
+						{{ transaccion.consumidor }}</td>
+						<td>
+						{% load humanize %}
+						{{ transaccion.monto|intcomma }}</td>
+						<td>
+						{{ transaccion.tipo_gasto }}</td>
+						<td>
+						{{ transaccion.fecha }}</td>
+						<td>
+						{{ transaccion.descripcion }}</td>
+					</tr>
+
+					{% endfor %}
+				</table>
+
+			</div>
+
+
+		</div>
+	</body>
+</html>

@@ -39,7 +39,9 @@ INSTALLED_APPS = (
     #'django.contrib.sites',
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
+    'django.contrib.humanize',
     'guiacontactos',
+    'contabilidad',
 )
 
 MIDDLEWARE_CLASSES = (
