@@ -27,7 +27,7 @@ class Transacciones(models.Model):
     	('TRAMITESYOFICINA', 'Tramites y oficina'),
     	)
 
-	consumidor = models.CharField(max_length=15, choices=NOMBRE_CONSUMIDOR)
+	consumidor = models.CharField(max_length=15, choices=NOMBRE_CONSUMIDOR, default='FRANCISCO')
 	monto = models.IntegerField(max_length=30)
 	tipo_gasto = models.CharField(max_length=20, choices=TIPO_GASTOS, default='CASA')
 	fecha = models.DateField(auto_now=False, auto_now_add=False)
