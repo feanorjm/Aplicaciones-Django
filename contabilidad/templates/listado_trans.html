@@ -8,7 +8,7 @@
 	<body>
 
 		<ol class="breadcrumb">
-		  <li><a href="http://localhost:8000/admin">Home</a></li>
+		  <li><a href="http://localhost:8000/admin/contabilidad/transacciones/add">Agregar</a></li>
 		  <li class="active">Agenda</li>
 		</ol>
 			<div class="table-responsive">
@@ -28,7 +28,7 @@
 						{{ transaccion.id }}</td>
 						<td>
 						{{ transaccion.consumidor }}</td>
-						<td>
+						<td>$
 						{% load humanize %}
 						{{ transaccion.monto|intcomma }}</td>
 						<td>
