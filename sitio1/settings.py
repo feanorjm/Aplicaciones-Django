@@ -55,6 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
+
 ROOT_URLCONF = 'sitio1.urls'
 
 TEMPLATES = [
@@ -95,9 +96,9 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'UTC-3'
 
 USE_I18N = True
 
@@ -112,3 +113,18 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+DATE_INPUT_FORMATS = (
+    '%d/%m/%Y', '%d/%m/%y',     # '25/10/2006', '25/10/06'
+    '%Y-%m-%d', '%y-%m-%d',     # '2006-10-25', '06-10-25'
+)
+
+DATETIME_INPUT_FORMATS = (
+    '%d/%m/%Y %H:%M:%S',    # '25/10/2006 14:30:59'
+    '%d/%m/%Y %H:%M',       # '25/10/2006 14:30'
+    '%d/%m/%y %H:%M:%S',    # '25/10/06 14:30:59'
+    '%d/%m/%y %H:%M',       # '25/10/06 14:30'
+    '%Y-%m-%d %H:%M:%S',    # '2006-10-25 14:30:59'
+    '%Y-%m-%d %H:%M',       # '2006-10-25 14:30'
+    '%Y-%m-%d',             # '2006-10-25'
+)
