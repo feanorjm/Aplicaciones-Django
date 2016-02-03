@@ -29,9 +29,9 @@ class Transacciones(models.Model):
 
 	consumidor = models.CharField(max_length=15, choices=NOMBRE_CONSUMIDOR, default='FRANCISCO')
 	monto = models.IntegerField(max_length=30)
-	tipo_gasto = models.CharField(max_length=20, choices=TIPO_GASTOS, default='CASA')
-	fecha = models.DateField(auto_now=False, auto_now_add=False)
-	descripcion = models.TextField(max_length=300)
+	tipo_gasto = models.CharField(max_length=20, choices=TIPO_GASTOS, default='CASA', blank=True)
+	fecha = models.DateField(auto_now=False, auto_now_add=False, blank=True)
+	descripcion = models.TextField(max_length=300, blank=True)
 
 	def __str__(self):
 		return self.descripcion
