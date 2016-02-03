@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'guiacontactos',
     'contabilidad',
+    'chartit',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -115,21 +116,12 @@ USE_THOUSAND_SEPARATOR = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
+
+STATIC_ROOT = ''
 STATIC_URL = '/static/'
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-DATE_INPUT_FORMATS = (
-    '%d/%m/%Y', '%d/%m/%y',     # '25/10/2006', '25/10/06'
-    '%Y-%m-%d', '%y-%m-%d',     # '2006-10-25', '06-10-25'
-)
-
-DATETIME_INPUT_FORMATS = (
-    '%d/%m/%Y %H:%M:%S',    # '25/10/2006 14:30:59'
-    '%d/%m/%Y %H:%M',       # '25/10/2006 14:30'
-    '%d/%m/%y %H:%M:%S',    # '25/10/06 14:30:59'
-    '%d/%m/%y %H:%M',       # '25/10/06 14:30'
-    '%Y-%m-%d %H:%M:%S',    # '2006-10-25 14:30:59'
-    '%Y-%m-%d %H:%M',       # '2006-10-25 14:30'
-    '%Y-%m-%d',             # '2006-10-25'
+STATICFILES_DIRS = (
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(BASE_DIR, 'static/'),
 )
