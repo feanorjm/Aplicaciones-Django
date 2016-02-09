@@ -1,4 +1,5 @@
 import os
+from datetime import date
 from django.shortcuts import render_to_response
 from django.db.models import Sum, Count, Avg
 from contabilidad.models import Transacciones
@@ -13,7 +14,7 @@ def transacciones(request):
 
 
 def chart_view(request):
-    #Step 1: Create a DataPool with the data we want to retrieve.
+    #Grafico 1
     data = \
         DataPool(
            series=
@@ -22,7 +23,6 @@ def chart_view(request):
               'terms': ['consumidor','monto']}
              ])
 
-    #Step 2: Create the Chart object
     cht = Chart(
             datasource = data,
             series_options =
@@ -40,7 +40,7 @@ def chart_view(request):
                     'title': {
                        'text': 'Consumidor'}}})
 
-    #Step 1: Create a DataPool with the data we want to retrieve.
+    #Grafico 2
     data2 = \
         DataPool(
            series=
@@ -49,12 +49,11 @@ def chart_view(request):
               'terms': ['tipo_gasto','monto']}
              ])
 
-    #Step 2: Create the Chart object
     cht2 = Chart(
             datasource = data2,
             series_options =
               [{'options':{
-                  'type': 'pie',
+                  'type': 'column',
                   'stacking': False},
                 'terms':{
                   'tipo_gasto': [
@@ -67,9 +66,61 @@ def chart_view(request):
                     'title': {
                        'text': 'Consumidor'}}})
 
+    #Grafico 3
+    data3 = \
+        DataPool(
+           series=
+            [{'options': {
+               'source': Transacciones.objects.values('consumidor','monto').filter(tipo_gasto='TELEFONO')}, #fecha__month=date.today().month)},
+              'terms': ['consumidor','monto']}
+             ])
+
+    cht3 = Chart(
+            datasource = data3,
+            series_options =
+              [{'options':{
+                  'type': 'pie',
+                  'stacking': False},
+                'terms':{
+                  'consumidor': [
+                    'monto']
+                  }}],
+            chart_options =
+              {'title': {
+                   'text': 'Gasto en telefono por Persona'},
+               'xAxis': {
+                    'title': {
+                       'text': 'Consumidor'}}})
+
+    #Grafico 4
+    data4 = \
+        DataPool(
+           series=
+            [{'options': {
+               'source': Transacciones.objects.values('consumidor','monto').filter(tipo_gasto='COMBUSTIBLE')}, #,fecha__month=date.today().month)},
+              'terms': ['consumidor','monto']}
+             ])
+
+    cht4 = Chart(
+            datasource = data4,
+            series_options =
+              [{'options':{
+                  'type': 'pie',
+                  'stacking': False},
+                'terms':{
+                  'consumidor': [
+                    'monto']
+                  }}],
+            chart_options =
+              {'title': {
+                   'text': 'Gasto en combustible por Persona'},
+               'xAxis': {
+                    'title': {
+                       'text': 'Consumidor'}}})
+
 
 
     #Step 3: Send the chart object to the template.
-    return render_to_response('chart1.html',{'weatherchart': [cht,cht2],})
+    return render_to_response('chart1.html',{'weatherchart': [cht,cht2,cht3,cht4],})
 
 

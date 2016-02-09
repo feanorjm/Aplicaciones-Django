@@ -5,11 +5,13 @@
         <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/jquery-1.12.0.min.js' %}"></script>
         {% load chartit %}
-        {{ weatherchart|load_charts:"chart_1,chart_2" }}
+        {{ weatherchart|load_charts:"chart_1,chart_2,chart_3,chart_4" }}
     </head>
     <body>
-        <div id='chart_1'> Chart will be rendered here </div>
-        <div id='chart_2'> Chart will be rendered here </div>
+            <div id='chart_1'> Chart will be rendered here </div>
+            <div id='chart_2'> Chart will be rendered here </div>
+            <div id='chart_3'> Chart will be rendered here </div>
+            <div id='chart_4'> Chart will be rendered here </div>
     </body>
 
 </html>
