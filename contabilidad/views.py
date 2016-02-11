@@ -7,9 +7,10 @@ from chartit import DataPool, Chart
 
 
 
-def transacciones(request):
-	listado_trans = Transacciones.objects.values('consumidor').annotate(monto_total=Sum('monto'))
-	return render_to_response('listado_trans.html', {'listado_trans': listado_trans})
+def transacciones(request,num):
+	listado_trans = Transacciones.objects.all()
+	total_trans = Transacciones.objects.aggregate(monto_total=Sum('monto'))['monto_total']
+	return render_to_response('pagina_listado.html', {'listado_trans': listado_trans,'total': str(total_trans)})
 
 
 
@@ -121,6 +122,6 @@ def chart_view(request):
 
 
     #Step 3: Send the chart object to the template.
-    return render_to_response('chart1.html',{'weatherchart': [cht,cht2,cht3,cht4],})
+    return render_to_response('chart3.html',{'weatherchart': [cht,cht2,cht3,cht4],})
 
 
