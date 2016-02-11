@@ -7,7 +7,7 @@ from chartit import DataPool, Chart
 
 
 
-def transacciones(request,num):
+def transacciones(request):
 	listado_trans = Transacciones.objects.all()
 	total_trans = Transacciones.objects.aggregate(monto_total=Sum('monto'))['monto_total']
 	return render_to_response('pagina_listado.html', {'listado_trans': listado_trans,'total': str(total_trans)})
