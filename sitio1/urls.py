@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^hola/$', hola),
     url(r'^current/$', current_datetime),
     url(r'^fecha/mas/(\d{1,2})/$',horas_adelante),
-    url(r'^transacciones/(\d)/$', transacciones, num=\d ),
+    url(r'^transacciones/', transacciones),
     url(r'^chart/', chart_view),
 
 ]
