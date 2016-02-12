@@ -72,7 +72,7 @@ def chart_view(request):
         DataPool(
            series=
             [{'options': {
-               'source': Transacciones.objects.values('consumidor','monto').filter(tipo_gasto='TELEFONO')}, #fecha__month=date.today().month)},
+               'source': Transacciones.objects.values('consumidor').annotate(monto=Sum('monto')).filter(tipo_gasto='TELEFONO')}, #fecha__month=date.today().month)},
               'terms': ['consumidor','monto']}
              ])
 
@@ -98,7 +98,7 @@ def chart_view(request):
         DataPool(
            series=
             [{'options': {
-               'source': Transacciones.objects.values('consumidor','monto').filter(tipo_gasto='COMBUSTIBLE')}, #,fecha__month=date.today().month)},
+               'source': Transacciones.objects.values('consumidor').annotate(monto=Sum('monto')).filter(tipo_gasto='COMBUSTIBLE')}, #,fecha__month=date.today().month)},
               'terms': ['consumidor','monto']}
              ])
 
