@@ -2,10 +2,10 @@ from django.conf.urls import patterns
 from django.conf.urls import include
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from sitio1.views import hola, raiz, current_datetime, horas_adelante
 from guiacontactos.views import personas
 from contabilidad.views import transacciones, chart_view
-admin.autodiscover()
 
 
 urlpatterns = [

@@ -97,10 +97,11 @@
 
                 <tr>
                   <td>
-                      {{ transaccion.id }}</td>
+
+                      {{ forloop.counter }}</td>
                   <td>
                       {{ transaccion.consumidor }}</td>
-                  <td>$
+                  <td align="right">$
                       {% load humanize %}
                       {{ transaccion.monto|intcomma }}</td>
                   <td>
@@ -116,7 +117,7 @@
                   <td class="success">
                     <b>Monto Total</b>
                   </td>
-                  <td class="success">
+                  <td class="success" align="right">
                     <b>$
                         {% load humanize %}
                         {{ total|intcomma }}</b>
