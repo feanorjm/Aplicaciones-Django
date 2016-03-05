@@ -85,11 +85,11 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th class="success">Consumidor</th>
-                  <th class="success">Monto</th>
-                  <th class="success">Tipo gasto</th>
-                  <th class="success">Fecha</th>
-                  <th class="success">Descripción</th>
+                  <th class="success" style="text-align:center;">Consumidor</th>
+                  <th class="success" style="text-align:center;">Monto</th>
+                  <th class="success" style="text-align:center;">Tipo gasto</th>
+                  <th class="success" style="text-align:center;">Fecha</th>
+                  <th class="success" style="text-align:center;">Descripción</th>
                 </tr>
               </thead>
               <tbody>
@@ -101,7 +101,7 @@
                       {{ forloop.counter }}</td>
                   <td>
                       {{ transaccion.consumidor }}</td>
-                  <td align="right">$
+                  <td align="right">
                       {% load humanize %}
                       {{ transaccion.monto|intcomma }}</td>
                   <td>
