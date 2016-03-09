@@ -8,8 +8,8 @@ from chartit import DataPool, Chart
 
 
 def transacciones(request):
-	listado_trans = Transacciones.objects.all()
-	total_trans = Transacciones.objects.aggregate(monto_total=Sum('monto'))['monto_total']
+	listado_trans = Transacciones.objects.all().filter(fecha__month=date.today().month)
+	total_trans = Transacciones.objects.filter(fecha__month=date.today().month).aggregate(monto_total=Sum('monto'))['monto_total']
 	return render_to_response('pagina_listado.html', {'listado_trans': listado_trans,'total': str(total_trans)})
 
 
