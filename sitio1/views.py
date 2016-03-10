@@ -1,6 +1,6 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response, redirect
-from .forms import LoginForm
+from sitio1.forms import LoginForm
 from django.contrib.auth import authenticate, login, logout
 
 
