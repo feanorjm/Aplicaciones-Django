@@ -2,10 +2,9 @@ from django.conf.urls import patterns
 from django.conf.urls import include
 from django.conf.urls import url
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
-from sitio1.views import hola, raiz, current_datetime, horas_adelante
 from guiacontactos.views import personas
 from contabilidad.views import transacciones, chart_view
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
@@ -14,10 +13,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^admin/doc', include('django.contrib.admindocs.urls')),
     url(r'^agenda/', personas),
-    url(r'^hola/$', hola),
-    url(r'^current/$', current_datetime),
-    url(r'^fecha/mas/(\d{1,2})/$',horas_adelante),
     url(r'^transacciones/', transacciones),
     url(r'^chart/', chart_view),
+    url(r'^login/$', 'sitio1.views.login_page',name="login"),
+    url(r'^logout/$', 'sitio1.views.logout_view',name="logout"),
 
 ]

@@ -1,19 +1,19 @@
 import os
 from datetime import date
 from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, Avg
 from contabilidad.models import Transacciones
 from chartit import DataPool, Chart
 
-
-
+@login_required
 def transacciones(request):
 	listado_trans = Transacciones.objects.all().filter(fecha__month=date.today().month)
 	total_trans = Transacciones.objects.filter(fecha__month=date.today().month).aggregate(monto_total=Sum('monto'))['monto_total']
 	return render_to_response('pagina_listado.html', {'listado_trans': listado_trans,'total': str(total_trans)})
 
 
-
+@login_required
 def chart_view(request):
     #Grafico 1
     data = \
