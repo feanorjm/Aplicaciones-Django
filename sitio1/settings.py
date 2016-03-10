@@ -40,7 +40,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     'django.contrib.humanize',
-    'sitio1',
     'guiacontactos',
     'contabilidad',
     'chartit',
