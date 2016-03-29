@@ -5,12 +5,23 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, Avg
 from contabilidad.models import Transacciones
 from chartit import DataPool, Chart
+from django.shortcuts import render
+from django_tables2 import RequestConfig
+from contabilidad.tables import PersonTable
+
+
+def people(request):
+    table = PersonTable(Transacciones.objects.all().filter(fecha__month=date.today().month))
+    total_trans = Transacciones.objects.filter(fecha__month=date.today().month).aggregate(monto_total=Sum('monto'))['monto_total']
+    RequestConfig(request, paginate={"per_page": 50}).configure(table)
+    return render(request, 'people.html', {'table': table,'total': str(total_trans)})
+
 
 @login_required
 def transacciones(request):
-	listado_trans = Transacciones.objects.all().filter(fecha__month=date.today().month)
-	total_trans = Transacciones.objects.filter(fecha__month=date.today().month).aggregate(monto_total=Sum('monto'))['monto_total']
-	return render_to_response('pagina_listado.html', {'listado_trans': listado_trans,'total': str(total_trans)})
+    listado_trans = Transacciones.objects.all().filter(fecha__month=date.today().month)
+    total_trans = Transacciones.objects.filter(fecha__month=date.today().month).aggregate(monto_total=Sum('monto'))['monto_total']
+    return render_to_response('pagina_listado.html', {'listado_trans': listado_trans,'total': str(total_trans)})
 
 
 @login_required

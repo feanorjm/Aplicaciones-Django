@@ -34,3 +34,7 @@ def homepage(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+def basicTemplate(request):
+    return render_to_response("basicTemplate.html", context_instance=RequestContext(request))

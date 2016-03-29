@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -36,13 +35,14 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    #'django.contrib.sites',
+    # 'django.contrib.sites',
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     'django.contrib.humanize',
     'guiacontactos',
     'contabilidad',
     'chartit',
+    'django_tables2',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -56,13 +56,14 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-
 ROOT_URLCONF = 'sitio1.urls'
+
+#TEMPLATE_CONTEXT_PROCESSORS = ('django.core.context_processors.request',)
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR+"/templates"],
+        'DIRS': [BASE_DIR + "/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,25 +78,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sitio1.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': 'C:/apps_django/sitio1/basedatos.sqlite',
-        #'USER':'',
-        #'PASSWORD':'',
-        #'HOST':'',
-        #'PORT':'',
+        # 'NAME': 'C:/apps_django/sitio1/basedatos.sqlite',
+        # 'USER':'',
+        # 'PASSWORD':'',
+        # 'HOST':'',
+        # 'PORT':'',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
-
 LOGIN_URL = reverse_lazy('login')
-#LOGIN_REDIRECT_URL='/accounts/profile/'
+# LOGIN_REDIRECT_URL='/accounts/profile/'
 
 
 
@@ -116,7 +115,6 @@ DECIMAL_SEPARATOR = ','
 THOUSAND_SEPARATOR = '.'
 USE_THOUSAND_SEPARATOR = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
@@ -129,3 +127,6 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(BASE_DIR, 'static/'),
 )
+
+
+

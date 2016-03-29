@@ -3,7 +3,7 @@ from django.conf.urls import include
 from django.conf.urls import url
 from django.contrib import admin
 from guiacontactos.views import personas
-from contabilidad.views import transacciones, chart_view
+from contabilidad.views import transacciones, chart_view, people
 from django.contrib.auth import views as auth_views
 
 
@@ -17,5 +17,7 @@ urlpatterns = [
     url(r'^chart/', chart_view),
     url(r'^login/$', 'sitio1.views.login_page',name="login"),
     url(r'^logout/$', 'sitio1.views.logout_view',name="logout"),
+    url(r'^basic/$', 'sitio1.views.basicTemplate',name="basic"),
+    url(r'^people/', people),
 
 ]

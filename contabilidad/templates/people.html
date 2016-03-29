@@ -1,0 +1,94 @@
+{% load staticfiles %}
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
+    {% load render_table from django_tables2 %}
+  </head><body>
+    <div class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><span>Brand</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              	<a href="#">Home</a>
+              </li>
+              <li class="active">
+                <a href="http://raices.pythonanywhere.com/transacciones/">Gastos</a>
+              </li>
+              <li>
+                <a href="http://raices.pythonanywhere.com/chart/">Graficos</a>
+              </li>
+            <li>
+              <a href="http://raices.pythonanywhere.com/admin/">Administrar</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section"><div class="container"><div class="row"><div class="col-md-12"><h2 contenteditable="true">Transacciones Gastos</h2></div></div></div></div><div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="btn-group btn-group-sm">
+              <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">Seleccione Mes &nbsp; &nbsp;<span class="fa fa-caret-down"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a href="#">Todos</a>
+                    <a href="#">Enero</a>
+                    <a href="#">Febrero</a>
+                    <a href="#">Marzo</a>
+                    <a href="#">Abril</a>
+                    <a href="#">Mayo</a>
+                    <a href="#">Junio</a>
+                    <a href="#">Julio</a>
+                    <a href="#">Agosto</a>
+                    <a href="#">Septiembre</a>
+                    <a href="#">Octubre</a>
+                    <a href="#">Noviembre</a>
+                    <a href="#">Diciembre</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="btn-group btn-group-sm">
+              <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">Selecciones Año &nbsp; &nbsp;<i class="fa fa-caret-down"></i></a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a href="#">Todos</a>
+                    <a href="#">2015</a>
+                    <a href="#">2016</a>
+                    <a href="#">2017</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+              {% render_table table %}
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+</body></html>
