@@ -1,5 +1,6 @@
 import os
 from datetime import date
+from django.db import connection
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, Avg
@@ -19,7 +20,8 @@ def people(request):
 
 @login_required
 def transacciones(request):
-    listado_trans = Transacciones.objects.all().filter(fecha__month=date.today().month)
+    #listado_trans = Transacciones.objects.all().filter(fecha__month=date.today().month)
+    listado_trans = Transacciones.objects.all()
     total_trans = Transacciones.objects.filter(fecha__month=date.today().month).aggregate(monto_total=Sum('monto'))['monto_total']
     return render_to_response('pagina_listado.html', {'listado_trans': listado_trans,'total': str(total_trans)})
 
@@ -27,22 +29,26 @@ def transacciones(request):
 @login_required
 def chart_view(request):
     #Grafico 1
+    get_mes = connection.ops.date_trunc_sql('month', 'fecha')
+    query= Transacciones.objects.filter(fecha__year=2016,consumidor='ALEXIS').extra({'fecha': get_mes})
+    query2= query.values('consumidor','fecha').annotate(monto=Sum('monto')).order_by('fecha')
+    #query = Transacciones.objects.values('consumidor').annotate(monto=Sum('monto'))
     data = \
         DataPool(
            series=
             [{'options': {
-               'source': Transacciones.objects.values('consumidor').annotate(monto=Sum('monto'))},
-              'terms': ['consumidor','monto']}
+               'source': query2},
+              'terms': ['fecha','consumidor','monto']}
              ])
 
     cht = Chart(
             datasource = data,
             series_options =
               [{'options':{
-                  'type': 'bar',
+                  'type': 'column',
                   'stacking': False},
                 'terms':{
-                  'consumidor': [
+                  'fecha': [
                     'monto']
                   }}],
             chart_options =
