@@ -120,7 +120,7 @@ USE_THOUSAND_SEPARATOR = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 
-STATIC_ROOT = '/home/raices/app-agenda/sitio1/static/'
+STATIC_ROOT = ''
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
