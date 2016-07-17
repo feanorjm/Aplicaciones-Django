@@ -1,12 +1,61 @@
-{% extends "base.html" %}
-{% block title %} Login {% endblock %}
-{% block content %}
-    <h1>Login</h1>
-    {% if message %}
-    <b>{{message}}</b>
-    {% endif %}
-    <form action="" method="post">{% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Submit">
-    </form>
-{%endblock%}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Constructora Raices </title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}">
+    <!--<link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">-->
+
+    <!-- Custom Theme Style -->
+    <!--<link href="css/custom.css" rel="stylesheet">-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
+  </head>
+
+  <body style="background:#F7F7F7;">
+    <div class="">
+      <a class="hiddenanchor" id="toregister"></a>
+      <a class="hiddenanchor" id="tologin"></a>
+      {% if message %}
+      <b>{{ message }}</b>
+      {% endif %}
+
+      <div id="wrapper">
+        <div id="login" class=" form">
+          <section class="login_content">
+            <form action="/login/?next={{request.path}}" method="post">{% csrf_token %}
+              <h1>Login Form</h1>
+              <!--<div>
+                <input type="text" class="form-control" placeholder="Username" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" placeholder="Password" required="" />
+              </div>
+              <div>-->
+              {{form.as_p}}
+                <!--<a class="btn btn-default submit" value="Submit" href="http://127.0.0.1:8000/transacciones/">Ingresar</a>-->
+                <input class="btn btn-default submit" type="submit" value="Submit" >
+                <!--<a class="reset_pass" href="#">Lost your password?</a>-->
+              </div>
+              <div class="clearfix"></div>
+              <div class="separator">
+
+                <div class="clearfix"></div>
+                <br />
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

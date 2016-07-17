@@ -42,7 +42,7 @@ INSTALLED_APPS = (
     'guiacontactos',
     'contabilidad',
     'chartit',
-    'django_tables2',
+    'smart_selects',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -93,9 +93,10 @@ DATABASES = {
     }
 }
 
-LOGIN_URL = reverse_lazy('login')
-# LOGIN_REDIRECT_URL='/accounts/profile/'
+#LOGIN_URL = reverse_lazy('login')
+LOGIN_URL = '/login/'
 
+DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 
 
 # Internationalization
@@ -128,5 +129,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static/'),
 )
 
+USE_DJANGO_JQUERY = False
 
 

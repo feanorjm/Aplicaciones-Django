@@ -1,4 +1,5 @@
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from .forms import LoginForm
 from django.contrib.auth import authenticate, login, logout
@@ -15,7 +16,8 @@ def login_page(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    message = "Te has identificado de modo correcto"
+                    message = "Te has identificado de modo correctamente"
+                    return redirect('contabilidad.views.index_view')
                 else:
                     message = "Tu usuario esta inactivo"
             else:
@@ -23,12 +25,24 @@ def login_page(request):
     else:
         form = LoginForm()
 
-    return render_to_response('login.html', {'message': message, 'form': form},
-                              context_instance=RequestContext(request))
+
+    return render_to_response('production/login.html', {'message': message, 'form': form},context_instance=RequestContext(request))
 
 
-def homepage(request):
-    return render_to_response("homepage.html", context_instance=RequestContext(request))
+
+def prueba(request):
+    return render_to_response("production/base.html", context_instance=RequestContext(request))
+
+def index2(request):
+    return render_to_response("production/index2.html", context_instance=RequestContext(request))
+
+def tables_dynamic2(request):
+    return render_to_response("production/tables_dynamic2.html", context_instance=RequestContext(request))
+
+def chartjs(request):
+    return render_to_response("production/chartjs.html", context_instance=RequestContext(request))
+
+
 
 
 def logout_view(request):
@@ -36,5 +50,3 @@ def logout_view(request):
     return redirect('login')
 
 
-def basicTemplate(request):
-    return render_to_response("basicTemplate.html", context_instance=RequestContext(request))

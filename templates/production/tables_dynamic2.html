@@ -1,0 +1,169 @@
+
+{% extends 'production/base.html' %}
+
+{% block content %}
+
+{% load staticfiles %}
+
+
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Tabla Transacciones </h2>
+                      <ul class="col-md-3 col-sm-12 col-xs-12 nav navbar-left panel_toolbox">
+                        <li><a href="{% url 'contabilidad.views.transaccion_crear' %}" class="btn btn-default">Nueva Transacción</a>
+                        </li>
+                      </ul>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                    <div class="x_content">
+
+                        <div class="row">
+                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <input type="text" placeholder="Tipo Transaccion" class="form-control" id="col_1" name="col_1">
+                          </div>
+
+                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <input type="text" placeholder="Consumidor" class="form-control" id="col_2" name="col_2">
+                          </div>
+
+                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <input type="text" placeholder="Tipo Entrada" class="form-control" id="col_4" name="col_4">
+                          </div>
+
+                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <input type="text" placeholder="Fecha" class="form-control" id="col_5" name="col_5">
+                          </div>
+                        </div>
+
+                      </div>
+                    <div class="x_content">
+                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>Tipo Transaccion</th>
+                          <th>Consumidor</th>
+                          <th>Monto</th>
+                          <th>Tipo Entrada</th>
+                          <th>Fecha</th>
+                          <th>Descripción</th>
+                          <th>Acción</th>
+                        </tr>
+                      </thead>
+
+
+                      <tbody>
+
+                        {% for transaccion in listado_trans %}
+
+                        <tr>
+                            <td>{{ transaccion.tipo_transaccion }}</td>
+                            <td>{{ transaccion.consumidor }}</td>
+                            <td align="right"> {% load humanize %} {{ transaccion.monto|intcomma }}</td>
+                            <td>{{ transaccion.nombre_entrada }}</td>
+                            <td>{{ transaccion.fecha|date:"Y-m-d" }}</td>
+                            <td>{{ transaccion.descripcion }}</td>
+                            <td><a href="{% url 'transaccion_editar' item_id=transaccion.id %}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Editar</a>
+                            <a href="{% url 'transaccion_eliminar' item_id=transaccion.id %}"
+                               onclick="return confirm('Estas seguro de eliminar este item?');"
+                               class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Eliminar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+      </div>
+    </div>
+    <!-- jQuery -->
+    <script type="text/javascript" src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <!-- FastClick -->
+    <script type="text/javascript" src="{% static 'vendors/fastclick/lib/fastclick.js' %}"></script>
+    <!-- NProgress -->
+    <script type="text/javascript" src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script type="text/javascript" src="{% static 'js/moment/moment.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/datepicker/daterangepicker.js' %}"></script>
+    <!-- Datatables -->
+    <script type="text/javascript" src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/datatables.net-scroller/js/datatables.scroller.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+
+    <!-- Datatables -->
+    <script>
+        function fnFilterColumn ( i )
+        {
+            $('#datatable-responsive').dataTable().fnFilter(
+                $("#col_"+(i+1)).val(),i
+            );
+        }
+
+        $(document).ready(function() {
+            $('#datatable-responsive').DataTable({
+                "order": [[ 4, "desc" ]]
+            });
+
+            $('#col_5').daterangepicker({
+              singleDatePicker: true,
+              calender_style: "picker_4",
+                format: "YYYY-MM-DD"
+            }, function(start, end, label) {
+              console.log(start.toISOString(), end.toISOString(), label);
+              fnFilterColumn(4);
+            });
+
+
+            $("#col_1").keyup( function() { fnFilterColumn(0); } );
+            $("#col_2").keyup( function() { fnFilterColumn(1); } );
+            $("#col_4").keyup( function() { fnFilterColumn(3); } );
+            //$("#col_5").keyup( function() { fnFilterColumn(4); } );
+        });
+    </script>
+
+    <!-- /Datatables -->
+
+{% endblock content %}

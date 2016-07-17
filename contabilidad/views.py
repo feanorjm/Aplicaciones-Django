@@ -1,45 +1,139 @@
 import os
 from datetime import date
 from django.db import connection
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect,HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.core.urlresolvers import reverse
+from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum, Count, Avg
-from contabilidad.models import Transacciones
+from django.db.models import Sum
+from .models import Transacciones,Transaccion
+from .forms import TransaccionForm
 from chartit import DataPool, Chart
-from django.shortcuts import render
-from django_tables2 import RequestConfig
-from contabilidad.tables import PersonTable
 
 
-def people(request):
-    table = PersonTable(Transacciones.objects.all().filter(fecha__month=date.today().month))
-    total_trans = Transacciones.objects.filter(fecha__month=date.today().month).aggregate(monto_total=Sum('monto'))['monto_total']
-    RequestConfig(request, paginate={"per_page": 50}).configure(table)
-    return render(request, 'people.html', {'table': table,'total': str(total_trans)})
+
+@login_required
+def index_view(request):
+    #listado_trans = Transacciones.objects.all().filter(fecha__month=date.today().month)
+    total_gastos_mes = Transaccion.objects.filter(tipo_transaccion=2,fecha__month=3).aggregate(monto_total=Sum('monto'))['monto_total']
+    total_gastos_mes_ant = Transaccion.objects.filter(tipo_transaccion=2,fecha__month=2).aggregate(monto_total=Sum('monto'))['monto_total']
+    porcentaje_mes_ant = round(100*total_gastos_mes/total_gastos_mes_ant)
+    total_gastos_global = Transaccion.objects.filter(tipo_transaccion=2).aggregate(monto_total=Sum('monto'))['monto_total']
+    total_ingresos_global = Transaccion.objects.filter(tipo_transaccion=1).aggregate(monto_total=Sum('monto'))['monto_total']
+    print(total_ingresos_global)
+
+    #Grafico 0
+    get_mes = connection.ops.date_trunc_sql('month', 'fecha')
+    query= Transaccion.objects.filter(fecha__year=2016).extra({'fecha': get_mes})
+    dinicio= query.values('consumidor__name','fecha').annotate(monto=Sum('monto')).order_by('fecha')
+    meses = []
+    consum = []
+    datos = []
+    for a in dinicio:
+        data_inicial = [int(a['fecha'][5:7]),a['consumidor__name'],a['monto']]
+        datos.append(data_inicial)
+        mes = int(a['fecha'][5:7])
+        consu = a['consumidor__name']
+        if (mes in meses) == False:
+            meses.append(mes)
+        if (consu in consum) == False:
+            consum.append(consu)
+
+    print(datos)
+    cht_index = []
+    list = []
+    for c in consum:
+        data = []
+        for mes in meses:
+            last = 0
+            for d in datos:
+                if (mes == d[0]) & (c == d[1]):
+                    data.append(d[2])
+                    last = mes
+                elif (c == d[1]) & (last == (mes -1)):
+                    data.append(0)
+
+        list.append(data)
+    cht_index.append(meses)
+    cht_index.append(consum)
+    cht_index.append(list)
+
+    return render_to_response('production/index.html',
+                              {'total_gg': total_gastos_global,
+                               'total_gm': total_gastos_mes,
+                               'porcentaje': porcentaje_mes_ant,
+                               'total_ig': total_ingresos_global,
+                               'cht_index': cht_index,
+                               })
 
 
 @login_required
 def transacciones(request):
     #listado_trans = Transacciones.objects.all().filter(fecha__month=date.today().month)
-    listado_trans = Transacciones.objects.all()
-    total_trans = Transacciones.objects.filter(fecha__month=date.today().month).aggregate(monto_total=Sum('monto'))['monto_total']
-    return render_to_response('pagina_listado.html', {'listado_trans': listado_trans,'total': str(total_trans)})
+    listado_trans = Transaccion.objects.all().order_by('-fecha')
+    #total_trans = Transacciones.objects.filter(fecha__month=date.today().month).aggregate(monto_total=Sum('monto'))['monto_total']
+    #return render_to_response('pagina_listado.html', {'listado_trans': listado_trans,'total': str(total_trans)})
+    return render_to_response('production/tables_dynamic2.html', {'listado_trans': listado_trans})
 
 
 @login_required
 def chart_view(request):
+    #Grafico 0
+    get_mes = connection.ops.date_trunc_sql('month', 'fecha')
+    query= Transaccion.objects.filter(fecha__year=2016).extra({'fecha': get_mes})
+    dinicio= query.values('consumidor__name','fecha').annotate(monto=Sum('monto')).order_by('fecha')
+    meses = []
+    consum = []
+    datos = []
+    for a in dinicio:
+        data_inicial = [int(a['fecha'][5:7]),a['consumidor__name'],a['monto']]
+        datos.append(data_inicial)
+        mes = int(a['fecha'][5:7])
+        consu = a['consumidor__name']
+        if (mes in meses) == False:
+            meses.append(mes)
+        if (consu in consum) == False:
+            consum.append(consu)
+
+    print(datos)
+    grafico = []
+    list = []
+    for c in consum:
+        data = []
+        for mes in meses:
+            last = 0
+            for d in datos:
+                if (mes == d[0]) & (c == d[1]):
+                    data.append(d[2])
+                    last = mes
+                elif (c == d[1]) & (last == (mes -1)):
+                    data.append(0)
+
+        list.append(data)
+    grafico.append(meses)
+    grafico.append(consum)
+    grafico.append(list)
+
+
     #Grafico 1
     get_mes = connection.ops.date_trunc_sql('month', 'fecha')
-    query= Transacciones.objects.filter(fecha__year=2016,consumidor='ALEXIS').extra({'fecha': get_mes})
-    query2= query.values('consumidor','fecha').annotate(monto=Sum('monto')).order_by('fecha')
-    #query = Transacciones.objects.values('consumidor').annotate(monto=Sum('monto'))
+    query= Transaccion.objects.filter(fecha__year=2016,nombre_entrada__in=[6,7]).extra({'fecha': get_mes})
+    dinicio= query.values('fecha').annotate(monto=Sum('monto')).order_by('fecha')
+
+    #print(dlist)
     data = \
         DataPool(
            series=
             [{'options': {
-               'source': query2},
-              'terms': ['fecha','consumidor','monto']}
+               'source': dinicio},
+              'terms': ['fecha','monto']}
              ])
+
+    def monthname(month_num):
+        names ={'2016-01-01': 'Enero', '2016-02-01': 'Febrero', '2016-03-01': 'Marzo', '2016-04-01': 'Abril', '2016-05-01': 'Mayo', '2016-06-01': 'Junio',
+        '2016-07-01': 'Julio', '2016-08-01': 'Agosto', '2016-09-01': 'Septiembre', '2016-10-01': 'Octubre', '2016-11-01': 'Noviembre', '2016-12-01': 'Diciembre'}
+        return names[month_num]
 
     cht = Chart(
             datasource = data,
@@ -53,18 +147,19 @@ def chart_view(request):
                   }}],
             chart_options =
               {'title': {
-                   'text': 'Total por consumidor'},
+                   'text': 'MONTO DEUDAS BANCARIAS Y GENERALES POR MES'},
                'xAxis': {
                     'title': {
-                       'text': 'Consumidor'}}})
+                       'text': 'MES'}}},
+            x_sortf_mapf_mts = (None, monthname, False))
 
     #Grafico 2
     data2 = \
         DataPool(
            series=
             [{'options': {
-               'source': Transacciones.objects.values('tipo_gasto').annotate(monto=Sum('monto'))},
-              'terms': ['tipo_gasto','monto']}
+               'source': Transaccion.objects.values('nombre_entrada','nombre_entrada__name').annotate(monto=Sum('monto'))},
+              'terms': ['nombre_entrada__name','monto']}
              ])
 
     cht2 = Chart(
@@ -74,7 +169,7 @@ def chart_view(request):
                   'type': 'column',
                   'stacking': False},
                 'terms':{
-                  'tipo_gasto': [
+                  'nombre_entrada__name': [
                     'monto']
                   }}],
             chart_options =
@@ -89,8 +184,8 @@ def chart_view(request):
         DataPool(
            series=
             [{'options': {
-               'source': Transacciones.objects.values('consumidor').annotate(monto=Sum('monto')).filter(tipo_gasto='TELEFONO')}, #fecha__month=date.today().month)},
-              'terms': ['consumidor','monto']}
+               'source': Transaccion.objects.values('consumidor__name').annotate(monto=Sum('monto')).filter(nombre_entrada=10)}, #fecha__month=date.today().month)},
+              'terms': ['consumidor__name','monto']}
              ])
 
     cht3 = Chart(
@@ -100,7 +195,7 @@ def chart_view(request):
                   'type': 'pie',
                   'stacking': False},
                 'terms':{
-                  'consumidor': [
+                  'consumidor__name': [
                     'monto']
                   }}],
             chart_options =
@@ -115,8 +210,8 @@ def chart_view(request):
         DataPool(
            series=
             [{'options': {
-               'source': Transacciones.objects.values('consumidor').annotate(monto=Sum('monto')).filter(tipo_gasto='COMBUSTIBLE')}, #,fecha__month=date.today().month)},
-              'terms': ['consumidor','monto']}
+               'source': Transaccion.objects.values('consumidor__name').annotate(monto=Sum('monto')).filter(nombre_entrada=3)}, #,fecha__month=date.today().month)},
+              'terms': ['consumidor__name','monto']}
              ])
 
     cht4 = Chart(
@@ -126,7 +221,7 @@ def chart_view(request):
                   'type': 'pie',
                   'stacking': False},
                 'terms':{
-                  'consumidor': [
+                  'consumidor__name': [
                     'monto']
                   }}],
             chart_options =
@@ -136,9 +231,40 @@ def chart_view(request):
                     'title': {
                        'text': 'Consumidor'}}})
 
-
-
     #Step 3: Send the chart object to the template.
-    return render_to_response('chart3.html',{'weatherchart': [cht,cht2,cht3,cht4],})
+    return render_to_response('production/chartjs.html',{'weatherchart': [cht,cht2,cht3,cht4],'data_graph': grafico})
+
+@login_required
+def transaccion_crear(request):
+    mensaje = None
+    if request.method == 'POST':
+        form = TransaccionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            mensaje = "Transacción Ingresada Correctamente"
+        else:
+            mensaje = "Transaccion No Ingresada. Datos Incorrectos"
+    else:
+        form = TransaccionForm()
+    return render_to_response('production/transaccion_crear.html',{'accion': 'Agregar', 'mensaje': mensaje,'form': form},context_instance=RequestContext(request))
+
+@login_required
+def transaccion_editar(request, item_id):
+    mensaje = None
+    obj = get_object_or_404(Transaccion, id=item_id)
+    if request.method == 'POST':
+        form = TransaccionForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            mensaje = "Transacción Editada Correctamente"
+        else:
+            mensaje = "Transaccion No Editada. Datos Incorrectos"
+    else:
+        form = TransaccionForm(instance=obj)
+    return render_to_response('production/transaccion_crear.html',{'accion': 'Editar', 'mensaje': mensaje,'form': form},context_instance=RequestContext(request))
 
 
+@login_required
+def transaccion_eliminar(request,item_id):
+    note = get_object_or_404(Transaccion, pk=item_id).delete()
+    return HttpResponseRedirect(reverse('contabilidad.views.transacciones'))
