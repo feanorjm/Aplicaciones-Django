@@ -18,7 +18,7 @@ def index_view(request):
     #listado_trans = Transacciones.objects.all().filter(fecha__month=date.today().month)
     total_gastos_mes = Transaccion.objects.filter(tipo_transaccion=2,fecha__month=3).aggregate(monto_total=Sum('monto'))['monto_total']
     total_gastos_mes_ant = Transaccion.objects.filter(tipo_transaccion=2,fecha__month=2).aggregate(monto_total=Sum('monto'))['monto_total']
-    porcentaje_mes_ant = round(100*int(total_gastos_mes/total_gastos_mes_ant))
+    porcentaje_mes_ant = 100
     total_gastos_global = Transaccion.objects.filter(tipo_transaccion=2).aggregate(monto_total=Sum('monto'))['monto_total']
     total_ingresos_global = Transaccion.objects.filter(tipo_transaccion=1).aggregate(monto_total=Sum('monto'))['monto_total']
     print(total_ingresos_global)
