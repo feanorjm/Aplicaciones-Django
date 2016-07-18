@@ -26,7 +26,7 @@ def index_view(request):
     #Grafico 0
     get_mes = connection.ops.date_trunc_sql('month', 'fecha')
     query= Transaccion.objects.filter(fecha__year=2016).extra({'fecha': get_mes})
-    dinicio= query.values('consumidor__name','fecha').annotate(monto=Sum('monto')).order_by('fecha')
+    dinicio= query.values('consumidor__name','fecha').filter(tipo_transaccion=2).annotate(monto=Sum('monto')).order_by('fecha')
     meses = []
     consum = []
     datos = []
