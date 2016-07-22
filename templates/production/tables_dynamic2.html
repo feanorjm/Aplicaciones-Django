@@ -84,10 +84,14 @@
                             <td>{{ transaccion.nombre_entrada }}</td>
                             <td>{{ transaccion.fecha|date:"Y-m-d" }}</td>
                             <td>{{ transaccion.descripcion }}</td>
-                            <td><a href="{% url 'transaccion_editar' item_id=transaccion.id %}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Editar</a>
-                            <a href="{% url 'transaccion_eliminar' item_id=transaccion.id %}"
-                               onclick="return confirm('Estas seguro de eliminar este item?');"
-                               class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Eliminar</a>
+                            <td>
+                                <a href="{% url 'transaccion_editar' item_id=transaccion.id %}"
+                                   class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Editar
+                                </a>
+                                <a href="{% url 'transaccion_eliminar' item_id=transaccion.id %}"
+                                    onclick="return confirm('Estas seguro de eliminar este item?');"
+                                    class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Eliminar
+                                </a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -144,7 +148,7 @@
 
         $(document).ready(function() {
             $('#datatable-responsive').DataTable({
-                "order": [[ 4, "desc" ]]
+                "order": [[ 4, "desc" ]],
             });
 
             $('#col_5').daterangepicker({
@@ -160,9 +164,30 @@
             $("#col_1").keyup( function() { fnFilterColumn(0); } );
             $("#col_2").keyup( function() { fnFilterColumn(1); } );
             $("#col_4").keyup( function() { fnFilterColumn(3); } );
-            //$("#col_5").keyup( function() { fnFilterColumn(4); } );
+            $("#col_5").keyup( function() { fnFilterColumn(4); } );
         });
     </script>
+
+    <!--<script>
+        $('document').ready(function() {
+            $('td a').click(function(e) {
+                e.preventDefault()
+                var href = $(this).attr('href');
+                var class = $(this).attr('class');
+                var tableRow = $(this).parents('tr');
+                var action = $(this).html();
+                $.ajax({
+                    url: href,
+                    success: function() {
+                        if (class == "fa fa-trash-o"){
+                              tableRow.remove();
+                              //alert({{ mensaje }});
+                        }
+                    }
+                });
+            });
+        });
+    </script>-->
 
     <!-- /Datatables -->
 

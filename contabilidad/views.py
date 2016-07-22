@@ -82,7 +82,7 @@ def chart_view(request):
     #Grafico 0
     get_mes = connection.ops.date_trunc_sql('month', 'fecha')
     query= Transaccion.objects.filter(fecha__year=2016).extra({'fecha': get_mes})
-    dinicio= query.values('consumidor__name','fecha').annotate(monto=Sum('monto')).order_by('fecha')
+    dinicio= query.values('consumidor__name','fecha').filter(tipo_transaccion=2).annotate(monto=Sum('monto')).order_by('fecha')
     meses = []
     consum = []
     datos = []
@@ -158,7 +158,7 @@ def chart_view(request):
         DataPool(
            series=
             [{'options': {
-               'source': Transaccion.objects.values('nombre_entrada','nombre_entrada__name').annotate(monto=Sum('monto'))},
+               'source': Transaccion.objects.values('nombre_entrada','nombre_entrada__name').filter(tipo_transaccion=2).annotate(monto=Sum('monto'))},
               'terms': ['nombre_entrada__name','monto']}
              ])
 
@@ -231,8 +231,41 @@ def chart_view(request):
                     'title': {
                        'text': 'Consumidor'}}})
 
+    #Grafico 5 ingresos mensuales 2016
+    get_mes = connection.ops.date_trunc_sql('month', 'fecha')
+    query= Transaccion.objects.filter(fecha__year=2016,tipo_transaccion=1).extra({'fecha': get_mes})
+    dinicio= query.values('fecha').annotate(monto=Sum('monto')).order_by('fecha')
+
+    #print(dlist)
+    data5 = \
+        DataPool(
+           series=
+            [{'options': {
+               'source': dinicio},
+              'terms': ['fecha','monto']}
+             ])
+
+
+    cht5 = Chart(
+            datasource = data5,
+            series_options =
+              [{'options':{
+                  'type': 'column',
+                  'stacking': False},
+                'terms':{
+                  'fecha': [
+                    'monto']
+                  }}],
+            chart_options =
+              {'title': {
+                   'text': 'INGRESOS MENSUALES AÑO 2016'},
+               'xAxis': {
+                    'title': {
+                       'text': 'MES'}}},
+            x_sortf_mapf_mts = (None, monthname, False))
+
     #Step 3: Send the chart object to the template.
-    return render_to_response('production/chartjs.html',{'weatherchart': [cht,cht2,cht3,cht4],'data_graph': grafico})
+    return render_to_response('production/chartjs.html',{'weatherchart': [cht,cht2,cht3,cht4,cht5],'data_graph': grafico})
 
 @login_required
 def transaccion_crear(request):
@@ -268,3 +301,5 @@ def transaccion_editar(request, item_id):
 def transaccion_eliminar(request,item_id):
     note = get_object_or_404(Transaccion, pk=item_id).delete()
     return HttpResponseRedirect(reverse('contabilidad.views.transacciones'))
+    #return render_to_response('production/tables_dynamic2.html',{'mensaje': "Eliminado correctamente"},context_instance=RequestContext(request))
+

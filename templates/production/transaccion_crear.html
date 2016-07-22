@@ -160,6 +160,8 @@
     <!-- Custom Theme Scripts -->
     <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
 
+    <script type="text/javascript" src="{% static 'js/jquery.price_format.2.0.min.js' %}"></script>
+
     <!-- bootstrap-daterangepicker -->
     <script>
       $(document).ready(function() {
@@ -388,5 +390,13 @@
         $(document).ready(function(){
             $('#id_nombre_entrada').addClass('form-control');
         });
+    </script>
+    <script>
+    /*$('#id_monto').priceFormat({
+        prefix: '',
+        centsSeparator: ',',
+        thousandsSeparator: '.',
+        centsLimit: 0
+    });*/
     </script>
 {% endblock %}
