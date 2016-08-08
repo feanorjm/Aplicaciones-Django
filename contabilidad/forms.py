@@ -2,24 +2,6 @@ from django import forms
 
 from .models import Transaccion
 
-class IntegerCurrencyInput(forms.TextInput):
-    def render(self, name, value, attrs=None):
-        from django.contrib.humanize.templatetags.humanize import intcomma
-        if value:
-            value = "$%s" % intcomma(value)
-        return super(IntegerCurrencyInput, self).render(name, value, attrs)
-
-class IntegerCurrencyField(forms.IntegerField):
-    widget = IntegerCurrencyInput
-
-    def clean(self, value):
-        if value:
-            if value[0] == "$": value = value[1:] # Cut off the dollar sign
-            value = value.replace(',', '') # Remove Commas
-        value = super(IntegerCurrencyField, self).clean(value)
-        return int(value) if value else value
-
-
 class TransaccionForm(forms.ModelForm):
     class Meta:
         model = Transaccion

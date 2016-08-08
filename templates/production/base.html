@@ -66,8 +66,11 @@
                 <img src="{% static 'images/logo-raices.png' %}" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
-                <span>Bienvenido,</span>
-                <h2>Administrador</h2>
+                <h2>Bienvenido
+                {% if user.is_authenticated %}
+                      <strong>{{ user.username|upper }}</strong>
+                    {% endif %}
+                </h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -238,7 +241,9 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{% static 'images/logo-raices.png' %}" alt="">Administración
+                    <img src="{% static 'images/logo-raices.png' %}" alt=""><strong>{% if user.is_authenticated %}
+                                                                                <strong>{{ user.username|upper }}</strong>
+                                                                              {% endif %}</strong>{{ first_name }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">

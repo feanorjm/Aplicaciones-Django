@@ -86,6 +86,28 @@
                 </div>
               </div>
             </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+
+                  <div class="x_content">
+                    <!--<canvas id="pieChart"></canvas>-->
+                     <div id='chart_6'></div>
+                  </div>
+                </div>
+              </div>
+
+              <!--<div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_content">
+                    <div id="chart_6"></div>
+                  </div>
+                </div>
+              </div>-->
+            </div>
           </div>
         </div>
         <!-- /page content -->
@@ -107,7 +129,7 @@
     <script type="text/javascript" src="{% static 'js/highcharts.js' %}"></script>
 
     {% load chartit %}
-    {{ weatherchart|load_charts:"chart_1,chart_2,chart_3,chart_4,chart_5" }}
+    {{ weatherchart|load_charts:"chart_1,chart_2,chart_3,chart_4,chart_5,chart_6" }}
 
     <!-- Custom Theme Scripts -->
     <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>

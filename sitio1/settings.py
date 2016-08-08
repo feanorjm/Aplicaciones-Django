@@ -60,6 +60,7 @@ ROOT_URLCONF = 'sitio1.urls'
 
 #TEMPLATE_CONTEXT_PROCESSORS = ('django.core.context_processors.request',)
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -121,6 +122,8 @@ USE_THOUSAND_SEPARATOR = True
 
 
 STATIC_ROOT = ''
+#STATIC_ROOT = '/home/raices/app-agenda/sitio1/static/'
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
