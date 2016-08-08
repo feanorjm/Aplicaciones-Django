@@ -197,7 +197,10 @@ def chart_view(request):
             series_options =
               [{'options':{
                   'type': 'column',
-                  'stacking': False},
+                  'stacking': False,
+                  'dataLabels': {
+                    'enabled': True
+                  }},
                 'terms':{
                   'fecha': [
                     'monto']
@@ -224,7 +227,10 @@ def chart_view(request):
             series_options =
               [{'options':{
                   'type': 'column',
-                  'stacking': False},
+                  'stacking': False,
+                  'dataLabels': {
+                    'enabled': True
+                  }},
                 'terms':{
                   'nombre_entrada__name': [
                     'monto']
@@ -308,7 +314,10 @@ def chart_view(request):
             series_options =
               [{'options':{
                   'type': 'column',
-                  'stacking': False},
+                  'stacking': False,
+                    'dataLabels': {
+                    'enabled': True
+                  }},
                 'terms':{
                   'fecha': [
                     'monto']
@@ -321,7 +330,7 @@ def chart_view(request):
                        'text': 'MES'}}},
             x_sortf_mapf_mts = (None, monthname, False))
 
-    #Grafico 6 tipos de gasto por persona
+    #Grafico 6 tipos de gasto por persona Alexis
     data6 = \
         DataPool(
            series=
@@ -334,21 +343,115 @@ def chart_view(request):
             datasource = data6,
             series_options =
               [{'options':{
-                  'type': 'column',
-                  'stacking': False},
+                  'type': 'bar',
+                  'stacking': False,
+                  'dataLabels': {
+                    'enabled': True
+                  }
+                },
                 'terms':{
                   'nombre_entrada__name': [
                     'monto']
                   }}],
             chart_options =
               {'title': {
-                   'text': 'Total por tipos de gastos ALEXIS'},
+                   'text': 'Total Gastos ALEXIS'},
+               'xAxis': {
+                    'title': {
+                       'text': 'Consumidor'}}})
+
+    #Grafico 7 tipos de gasto por persona francisco
+    data7 = \
+        DataPool(
+           series=
+            [{'options': {
+               'source': Transaccion.objects.values('nombre_entrada','nombre_entrada__name').filter(tipo_transaccion=2,consumidor__id=4).annotate(monto=Sum('monto'))},
+              'terms': ['nombre_entrada__name','monto']}
+             ])
+
+    cht7 = Chart(
+            datasource = data7,
+            series_options =
+              [{'options':{
+                  'type': 'bar',
+                  'stacking': False,
+                  'dataLabels': {
+                    'enabled': True
+                  }
+                },
+                'terms':{
+                  'nombre_entrada__name': [
+                    'monto']
+                  }}],
+            chart_options =
+              {'title': {
+                   'text': 'Total Gastos Francisco'},
+               'xAxis': {
+                    'title': {
+                       'text': 'Consumidor'}}})
+
+    #Grafico 7 tipos de gasto por persona Camilo
+    data8 = \
+        DataPool(
+           series=
+            [{'options': {
+               'source': Transaccion.objects.values('nombre_entrada','nombre_entrada__name').filter(tipo_transaccion=2,consumidor__id=3).annotate(monto=Sum('monto'))},
+              'terms': ['nombre_entrada__name','monto']}
+             ])
+
+    cht8 = Chart(
+            datasource = data8,
+            series_options =
+              [{'options':{
+                  'type': 'bar',
+                  'stacking': False,
+                  'dataLabels': {
+                    'enabled': True
+                  }
+                },
+                'terms':{
+                  'nombre_entrada__name': [
+                    'monto']
+                  }}],
+            chart_options =
+              {'title': {
+                   'text': 'Total Gastos Camilo'},
+               'xAxis': {
+                    'title': {
+                       'text': 'Consumidor'}}})
+
+    #Grafico 8 tipos de gasto por persona Juan
+    data9 = \
+        DataPool(
+           series=
+            [{'options': {
+               'source': Transaccion.objects.values('nombre_entrada','nombre_entrada__name').filter(tipo_transaccion=2,consumidor__id=2).annotate(monto=Sum('monto'))},
+              'terms': ['nombre_entrada__name','monto']}
+             ])
+
+    cht9 = Chart(
+            datasource = data9,
+            series_options =
+              [{'options':{
+                  'type': 'bar',
+                  'stacking': False,
+                  'dataLabels': {
+                    'enabled': True
+                  }
+                },
+                'terms':{
+                  'nombre_entrada__name': [
+                    'monto']
+                  }}],
+            chart_options =
+              {'title': {
+                   'text': 'Total Gastos Juan'},
                'xAxis': {
                     'title': {
                        'text': 'Consumidor'}}})
 
     #Step 3: Send the chart object to the template.
-    return render_to_response('production/chartjs.html',{'weatherchart': [cht,cht2,cht3,cht4,cht5,cht6],'data_graph': grafico},context_instance=RequestContext(request))
+    return render_to_response('production/chartjs.html',{'weatherchart': [cht,cht2,cht3,cht4,cht5,cht6,cht7,cht8,cht9],'data_graph': grafico},context_instance=RequestContext(request))
 
 @login_required
 def transaccion_crear(request):
