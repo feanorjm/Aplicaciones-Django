@@ -125,11 +125,13 @@ def transacciones(request):
     porcentaje_mes_ant = 100
     total_gastos_global = Transaccion.objects.filter(tipo_transaccion=2).aggregate(monto_total=Sum('monto'))['monto_total']
     total_ingresos_global = Transaccion.objects.filter(tipo_transaccion=1).aggregate(monto_total=Sum('monto'))['monto_total']
+    saldo_total = total_ingresos_global - total_gastos_global
 
     return render_to_response('production/tables_dynamic2.html',
                               {'listado_trans': listado_trans,
                                'total_gg': total_gastos_global,
                                'total_gm': total_gastos_mes,
+                               'saldo_total': saldo_total,
                                'porcentaje': porcentaje_mes_ant,
                                'total_ig': total_ingresos_global,
                                },context_instance=RequestContext(request))
@@ -358,7 +360,7 @@ def chart_view(request):
                    'text': 'Total Gastos ALEXIS'},
                'xAxis': {
                     'title': {
-                       'text': 'Consumidor'}}})
+                       'text': 'Entradas'}}})
 
     #Grafico 7 tipos de gasto por persona francisco
     data7 = \
@@ -388,7 +390,7 @@ def chart_view(request):
                    'text': 'Total Gastos Francisco'},
                'xAxis': {
                     'title': {
-                       'text': 'Consumidor'}}})
+                       'text': 'Entradas'}}})
 
     #Grafico 7 tipos de gasto por persona Camilo
     data8 = \
@@ -418,7 +420,7 @@ def chart_view(request):
                    'text': 'Total Gastos Camilo'},
                'xAxis': {
                     'title': {
-                       'text': 'Consumidor'}}})
+                       'text': 'Entradas'}}})
 
     #Grafico 8 tipos de gasto por persona Juan
     data9 = \
@@ -448,7 +450,7 @@ def chart_view(request):
                    'text': 'Total Gastos Juan'},
                'xAxis': {
                     'title': {
-                       'text': 'Consumidor'}}})
+                       'text': 'Entradas'}}})
 
     #Step 3: Send the chart object to the template.
     return render_to_response('production/chartjs.html',{'weatherchart': [cht,cht2,cht3,cht4,cht5,cht6,cht7,cht8,cht9],'data_graph': grafico},context_instance=RequestContext(request))
