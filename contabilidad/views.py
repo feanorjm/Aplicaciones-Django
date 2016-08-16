@@ -22,6 +22,7 @@ def index_view(request):
     porcentaje_mes_ant = 100
     total_gastos_global = Transaccion.objects.filter(tipo_transaccion=2).aggregate(monto_total=Sum('monto'))['monto_total']
     total_ingresos_global = Transaccion.objects.filter(tipo_transaccion=1).aggregate(monto_total=Sum('monto'))['monto_total']
+    saldo_total = total_ingresos_global - total_gastos_global
     print(total_ingresos_global)
 
     #Grafico 0
@@ -108,6 +109,7 @@ def index_view(request):
     return render_to_response('production/index.html',
                               {'total_gg': total_gastos_global,
                                'total_gm': total_gastos_mes,
+                               'saldo_total': saldo_total,
                                'porcentaje': porcentaje_mes_ant,
                                'total_ig': total_ingresos_global,
                                'cht_index': cht_index,
