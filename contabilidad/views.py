@@ -1,5 +1,5 @@
 import os
-from datetime import date
+from datetime import date, timedelta
 from django.db import connection
 from django.shortcuts import render_to_response, redirect, HttpResponseRedirect
 from django.http import HttpResponse
@@ -120,7 +120,7 @@ def index_view(request):
 @login_required
 def transacciones(request):
     #listado_trans = Transacciones.objects.all().filter(fecha__month=date.today().month)
-    listado_trans = Transaccion.objects.all().order_by('-fecha')[:300]
+    listado_trans = Transaccion.objects.filter(fecha__gt=date.today() - timedelta(2*365/12)).order_by('-fecha')#[:300]
     #total_trans = Transacciones.objects.filter(fecha__month=date.today().month).aggregate(monto_total=Sum('monto'))['monto_total']
     #return render_to_response('pagina_listado.html', {'listado_trans': listado_trans,'total': str(total_trans)})
     total_gastos_mes = Transaccion.objects.filter(tipo_transaccion=2,fecha__month=date.today().month-1).aggregate(monto_total=Sum('monto'))['monto_total']
