@@ -16,6 +16,7 @@ class Tipo_transaccion(models.Model):
         return self.name
 
 
+
 class Nombre_entrada(models.Model):
     tipo_transaccion = models.ForeignKey(Tipo_transaccion)
     name = models.CharField(max_length=255)
