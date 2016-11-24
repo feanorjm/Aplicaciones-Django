@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
-from .models import Transacciones,Transaccion
+from .models import Transaccion
 from .forms import TransaccionForm
 from chartit import DataPool, Chart
 
