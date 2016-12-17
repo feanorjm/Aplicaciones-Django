@@ -8,9 +8,10 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
-from .models import Transaccion
+from .models import Transaccion, Consumidor, Nombre_entrada
 from .forms import TransaccionForm
 from chartit import DataPool, Chart
+from django.contrib.auth.models import User
 
 
 
@@ -121,6 +122,7 @@ def index_view(request):
 def transacciones(request):
     #listado_trans = Transacciones.objects.all().filter(fecha__month=date.today().month)
     listado_trans = Transaccion.objects.filter(fecha__gt=date.today() - timedelta(2*365/12)).order_by('-fecha')#[:300]
+    listado_trans = Transaccion.objects.all().order_by('-fecha')[:300]
     #total_trans = Transacciones.objects.filter(fecha__month=date.today().month).aggregate(monto_total=Sum('monto'))['monto_total']
     #return render_to_response('pagina_listado.html', {'listado_trans': listado_trans,'total': str(total_trans)})
     total_gastos_mes = Transaccion.objects.filter(tipo_transaccion=2,fecha__month=date.today().month-1).aggregate(monto_total=Sum('monto'))['monto_total']
@@ -129,6 +131,9 @@ def transacciones(request):
     total_ingresos_global = Transaccion.objects.filter(tipo_transaccion=1).aggregate(monto_total=Sum('monto'))['monto_total']
     saldo_total = total_ingresos_global - total_gastos_global
 
+    users = Consumidor.objects.all()
+    entradas = Nombre_entrada.objects.all()
+
     return render_to_response('production/tables_dynamic2.html',
                               {'listado_trans': listado_trans,
                                'total_gg': total_gastos_global,
@@ -136,6 +141,8 @@ def transacciones(request):
                                'saldo_total': saldo_total,
                                'porcentaje': porcentaje_mes_ant,
                                'total_ig': total_ingresos_global,
+                               'users': users,
+                               'entradas':entradas,
                                },context_instance=RequestContext(request))
 
 

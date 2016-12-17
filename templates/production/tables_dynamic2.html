@@ -49,15 +49,32 @@
 
                     <div class="row">
                       <div class="col-md-3 col-sm-12 col-xs-12 form-group">
-                        <input type="text" placeholder="Tipo Transaccion" class="form-control" id="col_1" name="col_1">
+                        <!--<input type="text" placeholder="Tipo Transaccion" class="form-control" id="col_1" name="col_1">-->
+                          <select class="form-control" id="col_1" name="col_1">
+                            <option>Tipo Transacción</option>
+                            <option>Ingreso</option>
+                            <option>Gasto</option>
+                          </select>
                       </div>
 
                       <div class="col-md-3 col-sm-12 col-xs-12 form-group">
-                        <input type="text" placeholder="Consumidor" class="form-control" id="col_2" name="col_2">
+                        <!--<input type="text" placeholder="Consumidor" class="form-control" id="col_2" name="col_2">-->
+                          <select class="form-control" id="col_2" name="col_2">
+                            <option>Usuario</option>
+                              {% for user in users %}
+                                <option>{{ user.name }}</option>
+                              {% endfor %}
+                          </select>
                       </div>
 
                       <div class="col-md-3 col-sm-12 col-xs-12 form-group">
-                        <input type="text" placeholder="Tipo Entrada" class="form-control" id="col_4" name="col_4">
+                        <!--<input type="text" placeholder="Tipo Entrada" class="form-control" id="col_4" name="col_4">-->
+                          <select class="form-control" id="col_4" name="col_4">
+                            <option>Tipo Entrada</option>
+                              {% for entrada in entradas %}
+                                <option>{{ entrada.name }}</option>
+                              {% endfor %}
+                          </select>
                       </div>
 
                       <div class="col-md-3 col-sm-12 col-xs-12 form-group">
@@ -166,9 +183,12 @@
             });
 
 
-            $("#col_1").keyup( function() { fnFilterColumn(0); } );
-            $("#col_2").keyup( function() { fnFilterColumn(1); } );
-            $("#col_4").keyup( function() { fnFilterColumn(3); } );
+            $("#col_1").change( function() { if ($( "#col_1" ).val() != "Tipo Transacción"){ fnFilterColumn(0);} else{
+                $('#datatable-responsive').dataTable().fnFilter("",0);} } );
+            $("#col_2").change( function() { if ($( "#col_2" ).val() != "Usuario"){ fnFilterColumn(1);} else{
+                $('#datatable-responsive').dataTable().fnFilter("",1);} } );
+            $("#col_4").change( function() { if ($( "#col_4" ).val() != "Tipo Entrada"){ fnFilterColumn(3);} else{
+                $('#datatable-responsive').dataTable().fnFilter("",3);} } );
             $("#col_5").keyup( function() { fnFilterColumn(4); } );
         });
     </script>
